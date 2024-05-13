@@ -1,0 +1,29 @@
+name: gh-actions branch triggered workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'name'
+        required: true
+  repository_dispatch:
+    types: [ my-event ]
+  issue_comment:
+    types: [ created ]  
+
+jobs:
+  build:
+    name: run-workflow
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: refs/heads/gh-actions  # Specify the feature branch here
+          fetch-depth: 0
+      
+      - name: This is FROM FEATURE Branch
+        run: echo "running on gh-actions branch"
+      
+      - name: Test output
+        run: echo $(cat .test_output)
